@@ -8,20 +8,31 @@
  *
  */
 
+#include <iostream>
 #include <thread>
 #include <chrono>
 #include "progressbar.h"
 
 int main() {
 
-    int N = 100000;
+    int N = 10000;
 
     ProgressBar bar(N);
     bar.Init();
-
     for ( int i = 0; i < N; i++ ) {
 
         bar.Update(i,'>');
+
+        // the program...
+        std::this_thread::sleep_for( std::chrono::microseconds(300) );
+    }
+    
+    std::cout << std::endl;
+
+    bar.Init();
+    for ( int i = 0; i < N; i++ ) {
+
+        bar.Update(i,'#');
 
         // the program...
         std::this_thread::sleep_for( std::chrono::microseconds(300) );
