@@ -18,13 +18,13 @@ class ProgressBar {
     ProgressBar( int n ) { nCycles = n; savedPerc = 0; }
     ~ProgressBar();
 
-    void Init();            // initialize the bar. It must be put before the for loop
-                            // and after every text sent to the standard output
-    void Update( int i );   // update the bar with respect to the progress of the for
-                            // cycle, 'i' is the loop variable.
+    void Init();                             // initialize the bar. It must be put before the for loop
+                                             // and after every text sent to the standard output
+    void Update( int i , char opt = '#' );   // update the bar with respect to the progress of the for
+                                             // cycle, 'i' is the loop variable.
 
     private:
-    int nCycles;            // total number of iterations
+    int nCycles;                             // total number of iterations
     int savedPerc;
 };
 

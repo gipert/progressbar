@@ -12,7 +12,7 @@
 #include "progressbar.h"
 #include <iostream>
 
-void ProgressBar::Update( int i ) {
+void ProgressBar::Update( int i, char opt ) {
 
 	int perc = 0;
 
@@ -39,10 +39,19 @@ void ProgressBar::Update( int i ) {
 		// erase "-"
 		for (int j = 0; j < 50 - (perc-1) / 2; j++) std::cout << "\b";
 		
-        // add one additional "#"
-		if (perc == 0) std::cout << "-" << std::flush;
-		else           std::cout << "#" << std::flush;
-		
+        if ( opt == '#' ) {
+            // add one additional "#"
+		    if (perc == 0) std::cout << "-" << std::flush;
+		    else           std::cout << "#" << std::flush;
+		}
+        
+        else if ( opt == '>' ) {
+            // shift '>' to right
+            if (perc == 0) std::cout << "-" << std::flush;
+            //if (perc == 2) std::cout << ">" << std::flush;
+            else           std::cout << "\b->" << std::flush;
+        }
+
         // refill with "-"
 		for (int j = 0; j < 50-(perc-1)/2-1; j++) std::cout << "-";
 		
@@ -58,5 +67,5 @@ void ProgressBar::Update( int i ) {
 ProgressBar::~ProgressBar() {}
 
 void ProgressBar::Init() {
-	std::cout << "[--------------------------------------------------] 0" << "%" << std::flush;
+	std::cout << "[--------------------------------------------------] 0" << "%" << std::flush; // 50 '-'
 }
