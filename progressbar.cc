@@ -49,6 +49,7 @@ void ProgressBar::Update( int i, char opt ) {
             // shift '>' to right
             if (perc == 0) std::cout << "-" << std::flush;
             //if (perc == 2) std::cout << ">" << std::flush;
+			else if (perc == 2) std::cout << "\b\b[->" << std::flush;
             else           std::cout << "\b->" << std::flush;
         }
 

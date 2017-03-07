@@ -14,14 +14,14 @@
 
 int main() {
 
-    int N = 36475;
+    int N = 100000;
 
     ProgressBar bar(N);
     bar.Init();
 
     for ( int i = 0; i < N; i++ ) {
 
-        bar.Update(i);
+        bar.Update(i,'>');
 
         // the program...
         std::this_thread::sleep_for( std::chrono::microseconds(300) );
