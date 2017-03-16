@@ -9,7 +9,7 @@
  *
  */
 
-#include "progressbar.h"
+#include "ProgressBar.h"
 #include <iostream>
 
 void ProgressBar::Update( int i, char opt ) {
@@ -68,5 +68,6 @@ void ProgressBar::Update( int i, char opt ) {
 ProgressBar::~ProgressBar() {}
 
 void ProgressBar::Init() {
+    savedPerc = 0;
 	std::cout << "[--------------------------------------------------] 0" << "%" << std::flush; // 50 '-'
 }

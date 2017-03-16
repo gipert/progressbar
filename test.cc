@@ -11,7 +11,7 @@
 #include <iostream>
 #include <thread>
 #include <chrono>
-#include "progressbar.h"
+#include "ProgressBar.h"
 
 int main() {
 
