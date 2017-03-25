@@ -37,7 +37,7 @@ void ProgressBar::Update( int i, char opt ) {
 		if (perc == 100)              std::cout << "\b\b\b\b\b\b";
 
 		// erase "-"
-		for (int j = 0; j < 50 - (perc-1) / 2; j++) std::cout << "\b";
+		for (int j = 0; j < 50 - (perc-1) / 2; ++j) std::cout << "\b";
 		
         if ( opt == '#' ) {
             // add one additional "#"
@@ -54,7 +54,7 @@ void ProgressBar::Update( int i, char opt ) {
         }
 
         // refill with "-"
-		for (int j = 0; j < 50-(perc-1)/2-1; j++) std::cout << "-";
+		for (int j = 0; j < 50-(perc-1)/2-1; ++j) std::cout << "-";
 		
         // readd trailing percentage characters
 		std::cout << "] " << perc << "%";
