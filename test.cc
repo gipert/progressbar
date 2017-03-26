@@ -18,7 +18,7 @@ int main() {
     int N = 10000;
 
     ProgressBar bar(N);
-    bar.Init();
+
     for ( int i = 0; i < N; i++ ) {
 
         bar.Update(i,'>');
@@ -29,7 +29,9 @@ int main() {
     
     std::cout << std::endl;
 
-    bar.Init();
+    N = 5000;
+    bar.SetNIter(N);
+    bar.Reset();
     for ( int i = 0; i < N; i++ ) {
 
         bar.Update(i,'#');
