@@ -10,9 +10,40 @@
  */
 
 #include "ProgressBar.h"
+
 #include <iostream>
 
+ProgressBar::ProgressBar() : 
+    savedPerc(0),
+    updateIsCalled(false), 
+    setNIterIsCalled(true) {}
+
+ProgressBar::ProgressBar(int n) : 
+    nCycles(n), 
+    savedPerc(0), 
+    updateIsCalled(false),
+    setNIterIsCalled(true) {}
+
+void ProgressBar::Reset() {
+    updateIsCalled = false;
+    savedPerc = 0;
+    return;
+}
+
+void ProgressBar::SetNIter(int iter) { 
+    nCycles = iter;
+    setNIterIsCalled = true;
+    return;
+}
+
 void ProgressBar::Update( int i, char opt ) {
+    
+    if (!setNIterIsCalled) { std::cerr << "ProgressBar: number of cycles not set!\n"; return; }
+    
+    if (!updateIsCalled) {
+	    std::cout << "[--------------------------------------------------] 0" << "%" << std::flush; // 50 '-'
+    }
+    updateIsCalled = true;
 
 	int perc = 0;
 
@@ -48,9 +79,8 @@ void ProgressBar::Update( int i, char opt ) {
         else if ( opt == '>' ) {
             // shift '>' to right
             if (perc == 0) std::cout << ">" << std::flush;
-            //if (perc == 2) std::cout << ">" << std::flush;
 			else if (perc == 2) std::cout << "\b\b[->" << std::flush;
-            else           std::cout << "\b->" << std::flush;
+            else                std::cout << "\b->"    << std::flush;
         }
 
         // refill with "-"
@@ -63,11 +93,4 @@ void ProgressBar::Update( int i, char opt ) {
 	std::cout << std::flush;
 
     return;
-}
-
-ProgressBar::~ProgressBar() {}
-
-void ProgressBar::Init() {
-    savedPerc = 0;
-	std::cout << "[--------------------------------------------------] 0" << "%" << std::flush; // 50 '-'
 }
