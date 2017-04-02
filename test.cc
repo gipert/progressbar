@@ -11,7 +11,9 @@
 #include <iostream>
 #include <thread>
 #include <chrono>
+
 #include "ProgressBar.h"
+#include "ProgressPerc.h"
 
 int main() {
 
@@ -35,6 +37,16 @@ int main() {
     for ( int i = 0; i < N; i++ ) {
 
         bar.Update(i,'#');
+
+        // the program...
+        std::this_thread::sleep_for( std::chrono::microseconds(300) );
+    }
+    
+    std::cout << std::endl;
+    ProgressPerc perc(N);
+    for ( int i = 0; i < N; i++ ) {
+
+        perc.Update(i);
 
         // the program...
         std::this_thread::sleep_for( std::chrono::microseconds(300) );
