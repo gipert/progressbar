@@ -13,7 +13,6 @@
 #include <chrono>
 
 #include "ProgressBar.h"
-#include "ProgressPerc.h"
 
 int main() {
 
@@ -23,7 +22,7 @@ int main() {
 
     for ( int i = 0; i < N; i++ ) {
 
-        bar.Update(i,'>');
+        bar.Update(i);
 
         // the program...
         std::this_thread::sleep_for( std::chrono::microseconds(300) );
@@ -33,20 +32,22 @@ int main() {
 
     N = 5000;
     bar.SetNIter(N);
+    bar.SetStyle('>');
     bar.Reset();
     for ( int i = 0; i < N; i++ ) {
 
-        bar.Update(i,'#');
+        bar.Update(i);
 
         // the program...
         std::this_thread::sleep_for( std::chrono::microseconds(300) );
     }
     
     std::cout << std::endl;
-    ProgressPerc perc(N);
+    bar.Reset();
+    bar.ShowBar(false);
     for ( int i = 0; i < N; i++ ) {
 
-        perc.Update(i);
+        bar.Update(i);
 
         // the program...
         std::this_thread::sleep_for( std::chrono::microseconds(300) );

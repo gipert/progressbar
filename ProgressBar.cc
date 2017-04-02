@@ -15,12 +15,16 @@
 
 ProgressBar::ProgressBar() : 
     savedPerc(0),
+    style('#'),
+    showBar(true),
     updateIsCalled(false), 
     setNIterIsCalled(true) {}
 
-ProgressBar::ProgressBar(int n) : 
+ProgressBar::ProgressBar(int n, char opt, bool showbar) : 
     nCycles(n), 
-    savedPerc(0), 
+    savedPerc(0),
+    style(opt),
+    showBar(showbar),
     updateIsCalled(false),
     setNIterIsCalled(true) {}
 
@@ -36,12 +40,15 @@ void ProgressBar::SetNIter(int iter) {
     return;
 }
 
-void ProgressBar::Update( int i, char opt ) {
+void ProgressBar::Update( int i) {
     
     if (!setNIterIsCalled) { std::cerr << "ProgressBar: number of cycles not set!\n"; return; }
     
     if (!updateIsCalled) {
-	    std::cout << "[--------------------------------------------------] 0" << "%" << std::flush; // 50 '-'
+        if ( showBar == true ) {
+	        std::cout << "[--------------------------------------------------] 0" << "%" << std::flush; // 50 '-'
+        }
+        else std::cout << "0%" << std::flush;
     }
     updateIsCalled = true;
 
@@ -58,37 +65,38 @@ void ProgressBar::Update( int i, char opt ) {
 		if (perc  > 10 && perc < 100) std::cout << "\b\b\b" << perc << "%";
 		if (perc == 100)              std::cout << "\b\b\b" << perc << "%";
 	}
+    if ( showBar == true ) {
+    	// update bar every ten units
+    	if (perc % 2 == 0) {
+    		// erase trailing percentage characters
+    		if (perc  < 10)               std::cout << "\b\b\b\b";
+    		if (perc == 10)               std::cout << "\b\b\b\b\b";
+	    	if (perc  > 10 && perc < 100) std::cout << "\b\b\b\b\b";
+    		if (perc == 100)              std::cout << "\b\b\b\b\b\b";
 
-	// update bar every ten units
-	if (perc % 2 == 0) {
-		// erase trailing percentage characters
-		if (perc  < 10)               std::cout << "\b\b\b\b";
-		if (perc == 10)               std::cout << "\b\b\b\b\b";
-		if (perc  > 10 && perc < 100) std::cout << "\b\b\b\b\b";
-		if (perc == 100)              std::cout << "\b\b\b\b\b\b";
-
-		// erase "-"
-		for (int j = 0; j < 50 - (perc-1) / 2; ++j) std::cout << "\b";
-		
-        if ( opt == '#' ) {
-            // add one additional "#"
-		    if (perc == 0) std::cout << "-" << std::flush;
-		    else           std::cout << "#" << std::flush;
-		}
+    		// erase "-"
+    		for (int j = 0; j < 50 - (perc-1) / 2; ++j) std::cout << "\b";
+    		
+            if ( style == '#' ) {
+                // add one additional "#"
+		        if (perc == 0) std::cout << "-" << std::flush;
+		        else           std::cout << "#" << std::flush;
+		    }
         
-        else if ( opt == '>' ) {
-            // shift '>' to right
-            if (perc == 0) std::cout << ">" << std::flush;
-			else if (perc == 2) std::cout << "\b\b[->" << std::flush;
-            else                std::cout << "\b->"    << std::flush;
-        }
+            else if ( style == '>' ) {
+                // shift '>' to right
+                if (perc == 0) std::cout << ">" << std::flush;
+			    else if (perc == 2) std::cout << "\b\b[->" << std::flush;
+                else                std::cout << "\b->"    << std::flush;
+            }
 
-        // refill with "-"
-		for (int j = 0; j < 50-(perc-1)/2-1; ++j) std::cout << "-";
+            // refill with "-"
+		    for (int j = 0; j < 50-(perc-1)/2-1; ++j) std::cout << "-";
 		
-        // readd trailing percentage characters
-		std::cout << "] " << perc << "%";
-	}
+            // readd trailing percentage characters
+		    std::cout << "] " << perc << "%";
+	    }
+    }
 	savedPerc = perc;
 	std::cout << std::flush;
 

@@ -25,17 +25,21 @@ class ProgressBar {
       ProgressBar& operator=(ProgressBar&&)      = delete;   
     
       ProgressBar();                       // must call SetNIter later
-      ProgressBar(int n);                  // ready to call Update
+      ProgressBar(int n, char opt = '#', bool showbar = true);                  // ready to call Update
 
       void Reset();                        // reset bar to be use again
       void SetNIter(int iter);             // set number of loop iterations
-      void Update(int i, char opt = '#');  // update the bar with respect to the progress of the for
+      void SetStyle(char opt) { style = opt; }
+      void ShowBar(bool flag) { showBar = flag; }
+      void Update(int i);  // update the bar with respect to the progress of the for
                                            // cycle, 'i' is the loop variable.
   
     private:
       int nCycles;                         // total number of iterations
       int savedPerc;
 
+      char style;
+      bool showBar;
       bool updateIsCalled;                 // track firs call of Update
       bool setNIterIsCalled;               // be sure of setting nCycles
 };
