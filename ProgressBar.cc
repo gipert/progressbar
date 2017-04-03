@@ -56,6 +56,7 @@ void ProgressBar::Update( int i) {
 
 	// compute percentage
 	perc = i*100. / (nCycles-1);
+    if ( perc < savedPerc ) return;
 
 	// update percentage each unit
 	if (perc == savedPerc + 1) {
