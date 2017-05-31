@@ -13,35 +13,44 @@
 #define _PROGRESS_BAR_H_
 
 class ProgressBar {
-    
+
     public:
       // default destructor
       ~ProgressBar()                             = default;
-    
+
       // delete everything else
       ProgressBar           (ProgressBar const&) = delete;
       ProgressBar& operator=(ProgressBar const&) = delete;
       ProgressBar           (ProgressBar&&)      = delete;
-      ProgressBar& operator=(ProgressBar&&)      = delete;   
-    
-      ProgressBar();                       // must call SetNIter later
-      ProgressBar(int n, char opt = '#', bool showbar = true);                  // ready to call Update
+      ProgressBar& operator=(ProgressBar&&)      = delete;
 
-      void Reset();                        // reset bar to be use again
-      void SetNIter(int iter);             // set number of loop iterations
+      // default constructor, must call SetNIter later
+      ProgressBar();
+      ProgressBar(int n, char opt = '#', bool showbar = true);
+
+      // reset bar to use it again
+      void Reset();
+     // set number of loop iterations
+      void SetNIter(int iter);
+      // chose between '#' or '->' style
       void SetStyle(char opt) { style = opt; }
+      // to show only the percentage
       void ShowBar(bool flag) { showBar = flag; }
-      void Update(int i);  // update the bar with respect to the progress of the for
-                                           // cycle, 'i' is the loop variable.
-  
+      // main function
+      void Update();
+
     private:
-      int nCycles;                         // total number of iterations
+      // internal counter
+      int i;
+      // total number of iterations
+      int nCycles;
       int savedPerc;
 
       char style;
       bool showBar;
-      bool updateIsCalled;                 // track firs call of Update
-      bool setNIterIsCalled;               // be sure of setting nCycles
+      // track first call of Update()
+      bool updateIsCalled;
+      bool setNIterIsCalled;
 };
 
 #endif

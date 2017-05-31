@@ -22,12 +22,12 @@ int main() {
 
     for ( int i = 0; i < N; i++ ) {
 
-        bar.Update(i);
+        bar.Update();
 
         // the program...
         std::this_thread::sleep_for( std::chrono::microseconds(300) );
     }
-    
+
     std::cout << std::endl;
 
     N = 5000;
@@ -36,18 +36,18 @@ int main() {
     bar.Reset();
     for ( int i = 0; i < N; i++ ) {
 
-        bar.Update(i);
+        bar.Update();
 
         // the program...
         std::this_thread::sleep_for( std::chrono::microseconds(300) );
     }
-    
+
     std::cout << std::endl;
     bar.Reset();
     bar.ShowBar(false);
     for ( int i = 0; i < N; i++ ) {
 
-        bar.Update(i);
+        bar.Update();
 
         // the program...
         std::this_thread::sleep_for( std::chrono::microseconds(300) );
