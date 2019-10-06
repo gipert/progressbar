@@ -1,3 +1,4 @@
-test
-*.so
-*.swp
+test/test
+.DS_Store
+.*.swp
+.*.swo

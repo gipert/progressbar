@@ -1,14 +1,28 @@
-# ProgressBar
-A very simple progress bar (with percentage) for c++ loops, available in two different styles (with or without the bar).
+# progressbar
+A very simple, header-only, fully customizable, progress bar (with percentage)
+for c++ loops.
+```cpp
+#include "progressbar.hpp"
 
-![screenshot](https://raw.githubusercontent.com/luigipertoldi/progressbar/master/bar.png?raw=true "'#' style")
+int main() {
+    progressbar bar(100);
+    for (int i = 0; i < 100; ++i) {
+        bar.update();
+        // ... the program
+    }
+    return 0;
+}
+```
+![animated gif](.github/example-simple.gif)
 
 ## Notes
-To use the bar in parallelized loops call `ProgressBar::Update` in a critical section. With [OpenMP](http://www.openmp.org) this can be achieved with the following structure:
+To use the bar in parallelized loops call `progressbar::update` in a critical
+section. With [OpenMP](http://www.openmp.org) this can be achieved with the
+following structure:
 ```cpp
 #pragma omp parallel for
 for ( ... ) {
     #pragma omp critical
-        bar.Update();
+        bar.update();
 }
 ```

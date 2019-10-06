@@ -1,9 +1,9 @@
-/* test program for the ProgressBar class
+/* test program for the progressbar class
  * 
  * Author: Luigi Pertoldi
  * Created: 9 dic 2016
  *
- * Compile: c++ -I. -o test test.cc progressbar.cc
+ * Compile: c++ -I. -o test test.cc
  * Usage: ./test
  *
  */
@@ -12,17 +12,17 @@
 #include <thread>
 #include <chrono>
 
-#include "ProgressBar.h"
+#include "progressbar.hpp"
 
 int main() {
 
     int N = 10000;
 
-    ProgressBar bar(N);
+    progressbar bar(N);
 
     for ( int i = 0; i < N; i++ ) {
 
-        bar.Update();
+        bar.update();
 
         // the program...
         std::this_thread::sleep_for( std::chrono::microseconds(300) );
@@ -31,23 +31,26 @@ int main() {
     std::cout << std::endl;
 
     N = 5000;
-    bar.SetNIter(N);
-    bar.SetStyle('>');
-    bar.Reset();
+    bar.set_niter(N);
+    bar.reset();
+    bar.set_todo_char(" ");
+    bar.set_done_char("█");
+    bar.set_opening_bracket_char("{");
+    bar.set_closing_bracket_char("}");
     for ( int i = 0; i < N; i++ ) {
 
-        bar.Update();
+        bar.update();
 
         // the program...
         std::this_thread::sleep_for( std::chrono::microseconds(300) );
     }
 
     std::cout << std::endl;
-    bar.Reset();
-    bar.ShowBar(false);
+    bar.reset();
+    bar.show_bar(false);
     for ( int i = 0; i < N; i++ ) {
 
-        bar.Update();
+        bar.update();
 
         // the program...
         std::this_thread::sleep_for( std::chrono::microseconds(300) );
