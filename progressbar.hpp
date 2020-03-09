@@ -38,6 +38,8 @@
 #define __PROGRESSBAR_HPP
 
 #include <iostream>
+#include <string>
+#include <stdexcept>
 
 class progressbar {
 
