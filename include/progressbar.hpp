@@ -54,22 +54,22 @@ class progressbar {
       progressbar& operator=(progressbar&&)      = delete;
 
       // default constructor, must call set_niter later
-      progressbar();
-      progressbar(int n, bool showbar=true);
+      inline progressbar();
+      inline progressbar(int n, bool showbar=true);
 
       // reset bar to use it again
-      void reset();
+      inline void reset();
      // set number of loop iterations
-      void set_niter(int iter);
+      inline void set_niter(int iter);
       // chose your style
-      void set_done_char(const std::string& sym) {done_char = sym;}
-      void set_todo_char(const std::string& sym) {todo_char = sym;}
-      void set_opening_bracket_char(const std::string& sym) {opening_bracket_char = sym;}
-      void set_closing_bracket_char(const std::string& sym) {closing_bracket_char = sym;}
+      inline void set_done_char(const std::string& sym) {done_char = sym;}
+      inline void set_todo_char(const std::string& sym) {todo_char = sym;}
+      inline void set_opening_bracket_char(const std::string& sym) {opening_bracket_char = sym;}
+      inline void set_closing_bracket_char(const std::string& sym) {closing_bracket_char = sym;}
       // to show only the percentage
-      void show_bar(bool flag = true) {do_show_bar = flag;}
+      inline void show_bar(bool flag = true) {do_show_bar = flag;}
       // main function
-      void update();
+      inline void update();
 
     private:
       int progress;
@@ -84,7 +84,7 @@ class progressbar {
       std::string closing_bracket_char;
 };
 
-progressbar::progressbar() :
+inline progressbar::progressbar() :
     progress(0),
     n_cycles(0),
     last_perc(0),
@@ -95,7 +95,7 @@ progressbar::progressbar() :
     opening_bracket_char("["),
     closing_bracket_char("]") {}
 
-progressbar::progressbar(int n, bool showbar) :
+inline progressbar::progressbar(int n, bool showbar) :
     progress(0),
     n_cycles(n),
     last_perc(0),
@@ -106,21 +106,21 @@ progressbar::progressbar(int n, bool showbar) :
     opening_bracket_char("["),
     closing_bracket_char("]") {}
 
-void progressbar::reset() {
+inline void progressbar::reset() {
     progress = 0,
     update_is_called = false;
     last_perc = 0;
     return;
 }
 
-void progressbar::set_niter(int niter) {
+inline void progressbar::set_niter(int niter) {
     if (niter <= 0) throw std::invalid_argument(
         "progressbar::set_niter: number of iterations null or negative");
     n_cycles = niter;
     return;
 }
 
-void progressbar::update() {
+inline void progressbar::update() {
 
     if (n_cycles == 0) throw std::runtime_error(
             "progressbar::update: number of cycles not set");
