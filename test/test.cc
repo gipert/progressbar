@@ -28,7 +28,7 @@ int main() {
         std::this_thread::sleep_for( std::chrono::microseconds(300) );
     }
 
-    std::cout << std::endl;
+    std::cerr << std::endl;
 
     N = 5000;
     bar.set_niter(N);
@@ -45,7 +45,7 @@ int main() {
         std::this_thread::sleep_for( std::chrono::microseconds(300) );
     }
 
-    std::cout << std::endl;
+    std::cerr << std::endl;
     bar.reset();
     bar.show_bar(false);
     for ( int i = 0; i < N; i++ ) {
