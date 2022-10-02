@@ -55,6 +55,18 @@ int main() {
         // the program...
         std::this_thread::sleep_for( std::chrono::microseconds(300) );
     }
+    std::cerr << std::endl;
+
+    progressbar cout_bar(N, true, std::cout);
+
+    for ( int i = 0; i < N; i++ ) {
+
+        cout_bar.update();
+
+        // the program...
+        std::this_thread::sleep_for( std::chrono::microseconds(300) );
+    }
+
 
     return 0;
 }
