@@ -69,6 +69,8 @@ class progressbar {
       inline void set_closing_bracket_char(const std::string& sym) {closing_bracket_char = sym;}
       // to show only the percentage
       inline void show_bar(bool flag = true) {do_show_bar = flag;}
+      // set the output stream
+      inline void set_output_stream(const std::ostream& stream) {output.rdbuf(stream.rdbuf());}
       // main function
       inline void update();
 

@@ -57,11 +57,12 @@ int main() {
     }
     std::cerr << std::endl;
 
-    progressbar cout_bar(N, true, std::cout);
-
+    bar.reset();
+    bar.show_bar(true);
+    bar.set_output_stream(std::cout);
     for ( int i = 0; i < N; i++ ) {
 
-        cout_bar.update();
+        bar.update();
 
         // the program...
         std::this_thread::sleep_for( std::chrono::microseconds(300) );
