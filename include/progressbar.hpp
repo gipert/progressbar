@@ -38,6 +38,7 @@
 #define __PROGRESSBAR_HPP
 
 #include <iostream>
+#include <ostream>
 #include <string>
 #include <stdexcept>
 
@@ -55,7 +56,7 @@ class progressbar {
 
       // default constructor, must call set_niter later
       inline progressbar();
-      inline progressbar(int n, bool showbar=true);
+      inline progressbar(int n, bool showbar=true, std::ostream& out=std::cerr);
 
       // reset bar to use it again
       inline void reset();
@@ -68,6 +69,8 @@ class progressbar {
       inline void set_closing_bracket_char(const std::string& sym) {closing_bracket_char = sym;}
       // to show only the percentage
       inline void show_bar(bool flag = true) {do_show_bar = flag;}
+      // set the output stream
+      inline void set_output_stream(const std::ostream& stream) {output.rdbuf(stream.rdbuf());}
       // main function
       inline void update();
 
@@ -82,6 +85,8 @@ class progressbar {
       std::string todo_char;
       std::string opening_bracket_char;
       std::string closing_bracket_char;
+
+      std::ostream& output;
 };
 
 inline progressbar::progressbar() :
@@ -93,9 +98,10 @@ inline progressbar::progressbar() :
     done_char("#"),
     todo_char(" "),
     opening_bracket_char("["),
-    closing_bracket_char("]") {}
+    closing_bracket_char("]"),
+    output(std::cerr) {}
 
-inline progressbar::progressbar(int n, bool showbar) :
+inline progressbar::progressbar(int n, bool showbar, std::ostream& out) :
     progress(0),
     n_cycles(n),
     last_perc(0),
@@ -104,7 +110,8 @@ inline progressbar::progressbar(int n, bool showbar) :
     done_char("#"),
     todo_char(" "),
     opening_bracket_char("["),
-    closing_bracket_char("]") {}
+    closing_bracket_char("]"),
+    output(out) {}
 
 inline void progressbar::reset() {
     progress = 0,
@@ -127,11 +134,11 @@ inline void progressbar::update() {
 
     if (!update_is_called) {
         if (do_show_bar == true) {
-            std::cerr << opening_bracket_char;
-            for (int _ = 0; _ < 50; _++) std::cerr << todo_char;
-            std::cerr << closing_bracket_char << " 0%";
+            output << opening_bracket_char;
+            for (int _ = 0; _ < 50; _++) output << todo_char;
+            output << closing_bracket_char << " 0%";
         }
-        else std::cerr << "0%";
+        else output << "0%";
     }
     update_is_called = true;
 
@@ -144,39 +151,39 @@ inline void progressbar::update() {
     // update percentage each unit
     if (perc == last_perc + 1) {
         // erase the correct  number of characters
-        if      (perc <= 10)                std::cerr << "\b\b"   << perc << '%';
-        else if (perc  > 10 and perc < 100) std::cerr << "\b\b\b" << perc << '%';
-        else if (perc == 100)               std::cerr << "\b\b\b" << perc << '%';
+        if      (perc <= 10)                output << "\b\b"   << perc << '%';
+        else if (perc  > 10 and perc < 100) output << "\b\b\b" << perc << '%';
+        else if (perc == 100)               output << "\b\b\b" << perc << '%';
     }
     if (do_show_bar == true) {
         // update bar every ten units
         if (perc % 2 == 0) {
             // erase closing bracket
-            std::cerr << std::string(closing_bracket_char.size(), '\b');
+            output << std::string(closing_bracket_char.size(), '\b');
             // erase trailing percentage characters
-            if      (perc  < 10)               std::cerr << "\b\b\b";
-            else if (perc >= 10 && perc < 100) std::cerr << "\b\b\b\b";
-            else if (perc == 100)              std::cerr << "\b\b\b\b\b";
+            if      (perc  < 10)               output << "\b\b\b";
+            else if (perc >= 10 && perc < 100) output << "\b\b\b\b";
+            else if (perc == 100)              output << "\b\b\b\b\b";
 
             // erase 'todo_char'
             for (int j = 0; j < 50-(perc-1)/2; ++j) {
-                std::cerr << std::string(todo_char.size(), '\b');
+                output << std::string(todo_char.size(), '\b');
             }
 
             // add one additional 'done_char'
-            if (perc == 0) std::cerr << todo_char;
-            else           std::cerr << done_char;
+            if (perc == 0) output << todo_char;
+            else           output << done_char;
 
             // refill with 'todo_char'
-            for (int j = 0; j < 50-(perc-1)/2-1; ++j) std::cerr << todo_char;
+            for (int j = 0; j < 50-(perc-1)/2-1; ++j) output << todo_char;
 
             // readd trailing percentage characters
-            std::cerr << closing_bracket_char << ' ' << perc << '%';
+            output << closing_bracket_char << ' ' << perc << '%';
         }
     }
     last_perc = perc;
     ++progress;
-    std::cerr << std::flush;
+    output << std::flush;
 
     return;
 }

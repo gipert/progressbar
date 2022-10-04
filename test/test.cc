@@ -55,6 +55,19 @@ int main() {
         // the program...
         std::this_thread::sleep_for( std::chrono::microseconds(300) );
     }
+    std::cerr << std::endl;
+
+    bar.reset();
+    bar.show_bar(true);
+    bar.set_output_stream(std::cout);
+    for ( int i = 0; i < N; i++ ) {
+
+        bar.update();
+
+        // the program...
+        std::this_thread::sleep_for( std::chrono::microseconds(300) );
+    }
+
 
     return 0;
 }
